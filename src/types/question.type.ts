@@ -1,4 +1,4 @@
-interface Questions {
+interface Question {
     category: string;
     type: string;
     difficulty: string;
@@ -7,4 +7,4 @@ interface Questions {
     incorrect_answers: string[];
 }
 
-export default Questions;
+export default Question;

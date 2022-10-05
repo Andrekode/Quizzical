@@ -1,8 +1,8 @@
-import type Questions from '../types/questions.type';
+import type Question from '../types/question.type';
 import { action, makeAutoObservable, observable } from 'mobx';
 import QuestionsService from '../services/QuestionsService';
 
-const INIT_QUESTION: Questions = {
+const INIT_QUESTION: Question = {
     category: '',
     type: '',
     difficulty: '',
@@ -12,8 +12,8 @@ const INIT_QUESTION: Questions = {
 };
 
 class QuestionStore {
-    @observable difficulty = '';
-    @observable questions: Questions[] = [INIT_QUESTION];
+    @observable currentQuestion: Question = INIT_QUESTION;
+    @observable questions: Question[] = [];
     @observable questionsAmount = 5;
     @observable questionsDifficulty = 'easy';
 

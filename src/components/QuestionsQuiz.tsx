@@ -1,7 +1,9 @@
 import Questions from '../types/questions.type';
 import replaceString from '../utils/replaceString';
+import { nanoid } from 'nanoid';
 
 interface QuestionsProps {
+    id: number;
     category: string;
     type: string;
     difficulty: string;
@@ -10,16 +12,12 @@ interface QuestionsProps {
     incorrectAnswers: string[];
 }
 export default function QuestionsQuiz(props: QuestionsProps) {
-    const { category, type, difficulty, question, answer, incorrectAnswers } = props;
+    const { category, type, difficulty, question, answer, incorrectAnswers, id } = props;
 
     const allAnswers = [...incorrectAnswers, answer].sort();
 
-    const handleClick = (): void => {
-        console.log('clicked');
-    };
-
-    const choice = allAnswers.map((answer) => (
-        <div className='choice-div' onClick={handleClick} key={answer}>
+    const options = allAnswers.map((answer) => (
+        <div className='choice-div' key={answer}>
             <p className='choice'>{replaceString(answer)}</p>
         </div>
     ));
@@ -27,7 +25,7 @@ export default function QuestionsQuiz(props: QuestionsProps) {
     return (
         <main>
             <h2 className='question'>{replaceString(question)}</h2>
-            <div className='choices-container'>{choice}</div>
+            <div className='choices-container'>{options}</div>
             <hr />
         </main>
     );
