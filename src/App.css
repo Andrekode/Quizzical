@@ -1,0 +1,45 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+#root {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+}
+body {
+    color: #ffffff;
+}
+hr {
+    margin-bottom: 4em;
+}
+
+main {
+    padding: 0 1em;
+}
+
+.question {
+    margin: 1em 0;
+}
+
+.choices-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    margin: 1em 0;
+}
+
+.choice-div {
+    background-color: #ffffff;
+    padding: 0.2em 1em;
+    border-radius: 10px;
+    border: solid 1px #000000;
+}
+
+.choice {
+    color: blueviolet;
+}
