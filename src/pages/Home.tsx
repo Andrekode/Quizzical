@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import questionStore from '../stores/QuestionStore';
-import { Button } from '@mui/material';
+import { Button, Box, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
@@ -18,21 +18,44 @@ const Home = () => {
     };
 
     return (
-        <main>
-            <h1>Quizzical</h1>
-            <p>Some description</p>
-            <Button variant='outlined' size='large' sx={{ mt: 4 }} onClick={startQuiz}>
-                Start
-            </Button>
-            <Button
-                variant='outlined'
-                size='large'
-                sx={{ mt: 4 }}
-                onClick={() => questionStore.resetQuestions()}
-            >
-                restart
-            </Button>
-        </main>
+        <Box
+            component='div'
+            sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '100%',
+                height: '100vh',
+            }}
+        >
+            <Box component='div' sx={{ p: 5 }}>
+                <Typography variant='h1'>Quizzical</Typography>
+                <Typography variant='subtitle1' sx={{ textAlign: 'center' }}>
+                    Some description
+                </Typography>
+                <Box
+                    component='div'
+                    sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                >
+                    <Button
+                        variant='outlined'
+                        size='large'
+                        sx={{ mt: 4, mr: 2 }}
+                        onClick={startQuiz}
+                    >
+                        Start
+                    </Button>
+                    <Button
+                        variant='outlined'
+                        size='large'
+                        sx={{ mt: 4 }}
+                        onClick={() => questionStore.resetQuestions()}
+                    >
+                        restart
+                    </Button>
+                </Box>
+            </Box>
+        </Box>
     );
 };
 

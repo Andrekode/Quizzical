@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import questionStore from '../stores/QuestionStore';
 import { useNavigate } from 'react-router-dom';
-import { Button, Box } from '@mui/material';
+import { Button, Box, Typography } from '@mui/material';
 import { observer } from 'mobx-react';
 import replaceString from '../utils/replaceString';
+import LoadingQuestions from '../components/LoadingQuestions';
 
 const Questionare = () => {
     const navigate = useNavigate();
@@ -23,51 +24,89 @@ const Questionare = () => {
     }, [questionStore.questions.length]);
 
     if (questionStore.currentQuestion.question === '') {
-        return <h1>loading</h1>;
+        return (
+            <Box
+                component='div'
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '100vh',
+                }}
+            >
+                <LoadingQuestions />;
+            </Box>
+        );
     }
 
     const choices = questionStore.choices.map((choice) => (
-        <Button variant='outlined' size='small' key={choice}>
-            {choice}
+        <Button variant='outlined' size='small' key={choice} sx={{ mr: 2 }}>
+            {replaceString(choice)}
         </Button>
     ));
+    console.log(questionStore.currentQuestion.question);
 
     return (
-        <div>
-            <p>{`${questionStore.questionsIndex + 1} / ${
-                questionStore.questions.length
-            } Questions`}</p>
-            <h1>{replaceString(questionStore.currentQuestion.question)}</h1>
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'space-around',
-                    mt: 2,
-                    borderRadius: '15px',
-                }}
-            >
-                {choices}
-            </Box>
-            <Box sx={{ mt: 4 }}>
-                <Button variant='outlined' size='large' onClick={goBack}>
-                    Go back
-                </Button>
-                <Button
-                    variant='outlined'
-                    size='large'
-                    onClick={() => questionStore.previousQuestion()}
+        <Box
+            component='div'
+            sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '100%',
+                height: '100vh',
+            }}
+        >
+            <Box component='div'>
+                <Typography variant='subtitle1'>{`${questionStore.questionsIndex + 1} / ${
+                    questionStore.questions.length
+                } Questions`}</Typography>
+                <Box
+                    component='div'
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'space-around',
+                        mt: 2,
+                        alignItems: 'center',
+                        borderRadius: '15px',
+                    }}
                 >
-                    prev
-                </Button>
-                <Button
-                    variant='outlined'
-                    size='large'
-                    onClick={() => questionStore.nextQuestion()}
-                >
-                    next
-                </Button>
+                    <Typography variant='h2' sx={{ mb: 3 }}>
+                        {replaceString(questionStore.currentQuestion.question)}
+                    </Typography>
+                    <Box
+                        component='div'
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            width: '100%',
+                        }}
+                    >
+                        {choices}
+                    </Box>
+                    <Box component='div' sx={{ mt: 4 }}>
+                        <Button variant='outlined' size='large' onClick={goBack}>
+                            Go back
+                        </Button>
+                        <Button
+                            variant='outlined'
+                            size='large'
+                            onClick={() => questionStore.previousQuestion()}
+                        >
+                            prev
+                        </Button>
+                        <Button
+                            variant='outlined'
+                            size='large'
+                            onClick={() => questionStore.nextQuestion()}
+                        >
+                            next
+                        </Button>
+                    </Box>
+                </Box>
             </Box>
-        </div>
+        </Box>
     );
 };
 export default observer(Questionare);
