@@ -13,9 +13,12 @@ const INIT_QUESTION: Question = {
 
 class QuestionStore {
     @observable currentQuestion: Question = INIT_QUESTION;
-    @observable questions: Question[] = [];
-    @observable questionsAmount = 5;
+    @observable questions: Question[] = [INIT_QUESTION];
+    @observable questionsAmount = 10;
     @observable questionsDifficulty = 'easy';
+    @observable questionsIndex = 0;
+    @observable choices: string[] = [];
+    @observable 
 
     constructor() {
         makeAutoObservable(this);
@@ -23,6 +26,7 @@ class QuestionStore {
 
     @action
     async getQuestions() {
+        if (this.questions.length > 1) return;
         this.questions = await QuestionsService.fetchQuestions(
             this.questionsAmount,
             this.questionsDifficulty,
@@ -37,6 +41,32 @@ class QuestionStore {
     @action
     setQuestionsAmount(amount: number) {
         this.questionsAmount = amount;
+    }
+
+    @action
+    nextQuestion() {
+        if (this.questions.length > 0 && this.currentQuestion.question === '') {
+            this.currentQuestion = this.questions[this.questionsIndex];
+            this.choices = [
+                ...this.questions[this.questionsIndex].incorrect_answers,
+                this.questions[this.questionsIndex].correct_answer,
+            ].sort();
+        } else {
+            if (this.questionsIndex === this.questionsAmount - 1) return;
+            this.questionsIndex++;
+            this.currentQuestion = this.questions[this.questionsIndex];
+        }
+    }
+
+    @action
+    previousQuestion() {
+        if (this.questions.length > 0 && this.currentQuestion.question === '') {
+            this.currentQuestion = this.questions[this.questionsIndex];
+        } else {
+            if (this.questionsIndex === 0) return;
+            this.questionsIndex--;
+            this.currentQuestion = this.questions[this.questionsIndex];
+        }
     }
 }
 

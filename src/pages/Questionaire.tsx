@@ -1,34 +1,70 @@
 import React, { useEffect, useState } from 'react';
-import QuestionsQuiz from '../components/QuestionsQuiz';
 import questionStore from '../stores/QuestionStore';
-import Questions from '../types/questions.type';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@mui/material';
+import { Button, Box } from '@mui/material';
 import { observer } from 'mobx-react';
+import replaceString from '../utils/replaceString';
 
 const Questionare = () => {
-    const [playerChoice, setPlayerChoice] = useState<boolean>(false);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        questionStore.getQuestions();
-    }, []);
-
-    const choice = (id: number) => {
-        console.log(id);
-    };
 
     const goBack = (): void => {
         navigate('/');
     };
 
+    useEffect(() => {
+        questionStore.getQuestions();
+    }, []);
+
+    useEffect(() => {
+        if (questionStore.questions.length < 1) return;
+
+        questionStore.nextQuestion();
+    }, [questionStore.questions.length]);
+
+    if (questionStore.currentQuestion.question === '') {
+        return <h1>loading</h1>;
+    }
+
+    const choices = questionStore.choices.map((choice) => (
+        <Button variant='outlined' size='small' key={choice}>
+            {choice}
+        </Button>
+    ));
+
     return (
         <div>
-            <div>
-                <Button variant='outlined' size='large' sx={{ mt: 4 }} onClick={goBack}>
+            <p>{questionStore.questionsIndex + 1}</p>
+            <h1>{replaceString(questionStore.currentQuestion.question)}</h1>
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'space-around',
+                    mt: 2,
+                    borderRadius: '15px',
+                }}
+            >
+                {choices}
+            </Box>
+            <Box sx={{ mt: 4 }}>
+                <Button variant='outlined' size='large' onClick={goBack}>
                     Go back
                 </Button>
-            </div>
+                <Button
+                    variant='outlined'
+                    size='large'
+                    onClick={() => questionStore.previousQuestion()}
+                >
+                    prev
+                </Button>
+                <Button
+                    variant='outlined'
+                    size='large'
+                    onClick={() => questionStore.nextQuestion()}
+                >
+                    next
+                </Button>
+            </Box>
         </div>
     );
 };

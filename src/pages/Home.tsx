@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import questionStore from '../stores/QuestionStore';
-import QuestionsMenu from '../components/QuestionsMenu';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,6 +8,11 @@ const Home = () => {
     const [renderQuiz, setRenderQuiz] = useState<boolean>(false);
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        questionStore.getQuestions();
+    }, []);
+
     const startQuiz = (): void => {
         navigate('/questions');
     };
