@@ -18,7 +18,6 @@ class QuestionStore {
     @observable questionsDifficulty = 'easy';
     @observable questionsIndex = 0;
     @observable choices: string[] = [];
-    @observable 
 
     constructor() {
         makeAutoObservable(this);
@@ -55,6 +54,10 @@ class QuestionStore {
             if (this.questionsIndex === this.questionsAmount - 1) return;
             this.questionsIndex++;
             this.currentQuestion = this.questions[this.questionsIndex];
+            this.choices = [
+                ...this.questions[this.questionsIndex].incorrect_answers,
+                this.questions[this.questionsIndex].correct_answer,
+            ].sort();
         }
     }
 
@@ -62,11 +65,29 @@ class QuestionStore {
     previousQuestion() {
         if (this.questions.length > 0 && this.currentQuestion.question === '') {
             this.currentQuestion = this.questions[this.questionsIndex];
+            this.choices = [
+                ...this.questions[this.questionsIndex].incorrect_answers,
+                this.questions[this.questionsIndex].correct_answer,
+            ].sort();
         } else {
             if (this.questionsIndex === 0) return;
             this.questionsIndex--;
             this.currentQuestion = this.questions[this.questionsIndex];
+            this.choices = [
+                ...this.questions[this.questionsIndex].incorrect_answers,
+                this.questions[this.questionsIndex].correct_answer,
+            ].sort();
         }
+    }
+
+    @action
+    resetQuestions() {
+        this.questions = [];
+        this.questionsAmount = 10;
+        this.questionsDifficulty = 'easy';
+        this.questionsIndex = 0;
+        this.choices = [];
+        this.currentQuestion = INIT_QUESTION;
     }
 }
 

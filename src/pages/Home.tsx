@@ -24,6 +24,14 @@ const Home = () => {
             <Button variant='outlined' size='large' sx={{ mt: 4 }} onClick={startQuiz}>
                 Start
             </Button>
+            <Button
+                variant='outlined'
+                size='large'
+                sx={{ mt: 4 }}
+                onClick={() => questionStore.resetQuestions()}
+            >
+                restart
+            </Button>
         </main>
     );
 };

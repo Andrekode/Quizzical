@@ -34,7 +34,9 @@ const Questionare = () => {
 
     return (
         <div>
-            <p>{questionStore.questionsIndex + 1}</p>
+            <p>{`${questionStore.questionsIndex + 1} / ${
+                questionStore.questions.length
+            } Questions`}</p>
             <h1>{replaceString(questionStore.currentQuestion.question)}</h1>
             <Box
                 sx={{
