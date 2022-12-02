@@ -1,4 +1,6 @@
-import Question from '../types/question.type';
+import { Question } from '../types/question.type';
+import { nanoid } from 'nanoid';
+
 class QuestionsService {
     async fetchQuestions(amount: number, difficulty: string): Promise<Question[]> {
         const url = `https://opentdb.com/api.php?amount=${amount}&difficulty=${difficulty}&type=multiple`;
@@ -9,8 +11,18 @@ class QuestionsService {
             throw new Error(message);
         }
 
-        const questions = await response.json();
-        return questions.results;
+        const result = await response.json();
+
+        const questions: Question[] = result.results;
+
+        const question = questions.map((question) => {
+            return {
+                ...question,
+                id: nanoid(),
+            };
+        });
+
+        return question;
     }
 }
 

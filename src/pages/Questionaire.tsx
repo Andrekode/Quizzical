@@ -8,11 +8,9 @@ import LoadingQuestions from '../components/LoadingQuestions';
 
 const Questionare = () => {
     const navigate = useNavigate();
-
     const goBack = (): void => {
         navigate('/');
     };
-
     useEffect(() => {
         questionStore.getQuestions();
     }, []);
@@ -38,43 +36,61 @@ const Questionare = () => {
             </Box>
         );
     }
+    const userAnswer = (event: React.MouseEvent<HTMLButtonElement>) => {
+        const value = event.currentTarget.textContent;
+        if (value) {
+            questionStore.setCurrentSelectedAnswer(value);
+            questionStore.nextQuestion();
+        }
+    };
 
     const choices = questionStore.choices.map((choice) => (
-        <Button variant='outlined' size='small' key={choice} sx={{ mr: 2 }}>
+        <Button
+            variant='outlined'
+            size='small'
+            key={choice}
+            sx={{ mr: 2 }}
+            onClick={(e) => userAnswer(e)}
+        >
             {replaceString(choice)}
         </Button>
     ));
-    console.log(questionStore.currentQuestion.question);
 
     return (
         <Box
             component='div'
+            display='flex'
+            flexDirection='column'
             sx={{
-                display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
                 width: '100%',
                 height: '100vh',
+                p: 2,
             }}
         >
-            <Box component='div'>
-                <Typography variant='subtitle1'>{`${questionStore.questionsIndex + 1} / ${
-                    questionStore.questions.length
-                } Questions`}</Typography>
-                <Box
-                    component='div'
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-around',
-                        mt: 2,
-                        alignItems: 'center',
-                        borderRadius: '15px',
-                    }}
-                >
-                    <Typography variant='h2' sx={{ mb: 3 }}>
-                        {replaceString(questionStore.currentQuestion.question)}
-                    </Typography>
+            {!questionStore.questionFinished && (
+                <>
+                    <Box component='div'>
+                        <Typography variant='subtitle1'>{`${questionStore.questionsIndex + 1} / ${
+                            questionStore.questions.length
+                        } Questions`}</Typography>
+                        <Box
+                            component='div'
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'space-around',
+                                mt: 2,
+                                alignItems: 'center',
+                                borderRadius: '15px',
+                            }}
+                        >
+                            <Typography variant='h2' sx={{ mb: 3 }}>
+                                {replaceString(questionStore.currentQuestion.question)}
+                            </Typography>
+                        </Box>
+                    </Box>
                     <Box
                         component='div'
                         sx={{
@@ -85,7 +101,7 @@ const Questionare = () => {
                     >
                         {choices}
                     </Box>
-                    <Box component='div' sx={{ mt: 4 }}>
+                    <Box component='div' sx={{ display: 'flex', mt: 4, gap: 2 }}>
                         <Button variant='outlined' size='large' onClick={goBack}>
                             Go back
                         </Button>
@@ -104,8 +120,8 @@ const Questionare = () => {
                             next
                         </Button>
                     </Box>
-                </Box>
-            </Box>
+                </>
+            )}
         </Box>
     );
 };

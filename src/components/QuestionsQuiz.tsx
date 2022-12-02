@@ -2,7 +2,7 @@ import Questions from '../types/questions.type';
 import replaceString from '../utils/replaceString';
 import { nanoid } from 'nanoid';
 
-interface QuestionsProps {
+interface ComponentProps {
     id: number;
     category: string;
     type: string;
@@ -11,7 +11,8 @@ interface QuestionsProps {
     answer: string;
     incorrectAnswers: string[];
 }
-export default function QuestionsQuiz(props: QuestionsProps) {
+
+export default function QuestionsQuiz(props: ComponentProps) {
     const { category, type, difficulty, question, answer, incorrectAnswers, id } = props;
 
     const allAnswers = [...incorrectAnswers, answer].sort();

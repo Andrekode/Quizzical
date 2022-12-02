@@ -1,8 +1,9 @@
-import type Question from '../types/question.type';
+import type { Question } from '../types/question.type';
 import { action, makeAutoObservable, observable } from 'mobx';
 import QuestionsService from '../services/QuestionsService';
 
 const INIT_QUESTION: Question = {
+    id: '',
     category: '',
     type: '',
     difficulty: '',
@@ -18,6 +19,9 @@ class QuestionStore {
     @observable questionsDifficulty = 'easy';
     @observable questionsIndex = 0;
     @observable choices: string[] = [];
+    @observable questionRegistry = new Map<string, Question>();
+    @observable currentSelectedAnswer = '';
+    @observable questionFinished = false;
 
     constructor() {
         makeAutoObservable(this);
@@ -43,15 +47,14 @@ class QuestionStore {
     }
 
     @action
-    nextQuestion() {
+    nextQuestion(): void {
         if (this.questions.length > 0 && this.currentQuestion.question === '') {
             this.currentQuestion = this.questions[this.questionsIndex];
             this.choices = [
                 ...this.questions[this.questionsIndex].incorrect_answers,
                 this.questions[this.questionsIndex].correct_answer,
             ].sort();
-        } else {
-            if (this.questionsIndex === this.questionsAmount - 1) return;
+        } else if (this.questionsIndex !== this.questionsAmount - 1) {
             this.questionsIndex++;
             this.currentQuestion = this.questions[this.questionsIndex];
             this.choices = [
@@ -62,15 +65,14 @@ class QuestionStore {
     }
 
     @action
-    previousQuestion() {
+    previousQuestion(): void {
         if (this.questions.length > 0 && this.currentQuestion.question === '') {
             this.currentQuestion = this.questions[this.questionsIndex];
             this.choices = [
                 ...this.questions[this.questionsIndex].incorrect_answers,
                 this.questions[this.questionsIndex].correct_answer,
             ].sort();
-        } else {
-            if (this.questionsIndex === 0) return;
+        } else if (this.questionsIndex !== 0) {
             this.questionsIndex--;
             this.currentQuestion = this.questions[this.questionsIndex];
             this.choices = [
@@ -81,13 +83,23 @@ class QuestionStore {
     }
 
     @action
-    resetQuestions() {
+    resetQuestions(): void {
         this.questions = [];
         this.questionsAmount = 10;
         this.questionsDifficulty = 'easy';
         this.questionsIndex = 0;
         this.choices = [];
         this.currentQuestion = INIT_QUESTION;
+        this.questionRegistry.clear();
+    }
+
+    @action
+    setCurrentSelectedAnswer(answer: string) {
+        this.currentQuestion.userAnswer = answer;
+        this.questionRegistry.set(this.currentQuestion.id, this.currentQuestion);
+        if (this.questionsAmount === this.questionRegistry.size) {
+            this.questionFinished = true;
+        }
     }
 }
 
