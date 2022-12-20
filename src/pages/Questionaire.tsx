@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import questionStore from '../stores/QuestionStore';
 import { useNavigate } from 'react-router-dom';
-import { Button, Box, Typography } from '@mui/material';
+import { Button, Box, Typography, Stack } from '@mui/material';
 import { observer } from 'mobx-react';
 import replaceString from '../utils/replaceString';
 import LoadingQuestions from '../components/LoadingQuestions';
@@ -124,18 +124,20 @@ const Questionare = () => {
                     </Box>
                 </>
             )}
-            {questionStore.doneArray.map((question) => {
-                return (
-                    <OutlinedCard
-                        key={question.id}
-                        id={question.id}
-                        category={question.category}
-                        question={question.question}
-                        userAnswer={question.userAnswer}
-                        correctAnswer={question.correct_answer}
-                    />
-                );
-            })}
+            <Stack direction='row' spacing={1}>
+                {questionStore.doneArray.map((question) => {
+                    return (
+                        <OutlinedCard
+                            key={question.id}
+                            id={question.id}
+                            category={question.category}
+                            question={question.question}
+                            userAnswer={question.userAnswer}
+                            correctAnswer={question.correct_answer}
+                        />
+                    );
+                })}
+            </Stack>
         </Box>
     );
 };

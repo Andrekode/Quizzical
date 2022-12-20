@@ -26,7 +26,7 @@ class QuestionsService {
     }
 
     newF(questionRegistry: Map<string, Question>) {
-        const arr: Array<Question> = [];
+        const arr: Question[] = [];
         for (const question of questionRegistry.values()) {
             arr.push(question);
         }

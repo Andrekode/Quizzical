@@ -95,12 +95,13 @@ class QuestionStore {
     }
 
     @action
-    setCurrentSelectedAnswer(answer: string) {
+    setCurrentSelectedAnswer(answer: string): void {
         this.currentQuestion.userAnswer = answer;
         this.questionRegistry.set(this.currentQuestion.id, this.currentQuestion);
         if (this.questionsAmount - 1 === this.questionRegistry.size) {
             this.questionFinished = true;
             this.doneArray = [...QuestionsService.newF(this.questionRegistry)];
+            this.questionRegistry.clear();
         }
     }
 }

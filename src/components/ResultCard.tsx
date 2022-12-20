@@ -1,10 +1,5 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import { Stack, Card, CardActions, CardContent, Button, Typography, Box } from '@mui/material';
 
 interface ComponentProps {
     id: string;
@@ -46,8 +41,8 @@ const card = (props: ComponentProps) => {
 
 export default function OutlinedCard(props: ComponentProps) {
     return (
-        <Box sx={{ minWidth: 275 }}>
-            <Card variant='outlined'>{card(props)}</Card>
-        </Box>
+        <Card key={props.id} variant='outlined'>
+            {card(props)}
+        </Card>
     );
 }
