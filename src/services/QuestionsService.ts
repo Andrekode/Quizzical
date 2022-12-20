@@ -24,6 +24,14 @@ class QuestionsService {
 
         return question;
     }
+
+    newF(questionRegistry: Map<string, Question>) {
+        const arr: Array<Question> = [];
+        for (const question of questionRegistry.values()) {
+            arr.push(question);
+        }
+        return arr;
+    }
 }
 
 export default new QuestionsService();

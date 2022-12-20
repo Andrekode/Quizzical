@@ -5,6 +5,8 @@ import { Button, Box, Typography } from '@mui/material';
 import { observer } from 'mobx-react';
 import replaceString from '../utils/replaceString';
 import LoadingQuestions from '../components/LoadingQuestions';
+import OutlinedCard from '../components/ResultCard';
+import type { Question } from '../types/question.type';
 
 const Questionare = () => {
     const navigate = useNavigate();
@@ -122,6 +124,18 @@ const Questionare = () => {
                     </Box>
                 </>
             )}
+            {questionStore.doneArray.map((question) => {
+                return (
+                    <OutlinedCard
+                        key={question.id}
+                        id={question.id}
+                        category={question.category}
+                        question={question.question}
+                        userAnswer={question.userAnswer}
+                        correctAnswer={question.correct_answer}
+                    />
+                );
+            })}
         </Box>
     );
 };

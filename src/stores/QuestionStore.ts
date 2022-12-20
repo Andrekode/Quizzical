@@ -22,6 +22,7 @@ class QuestionStore {
     @observable questionRegistry = new Map<string, Question>();
     @observable currentSelectedAnswer = '';
     @observable questionFinished = false;
+    @observable doneArray: Question[] = [];
 
     constructor() {
         makeAutoObservable(this);
@@ -97,8 +98,9 @@ class QuestionStore {
     setCurrentSelectedAnswer(answer: string) {
         this.currentQuestion.userAnswer = answer;
         this.questionRegistry.set(this.currentQuestion.id, this.currentQuestion);
-        if (this.questionsAmount === this.questionRegistry.size) {
+        if (this.questionsAmount - 1 === this.questionRegistry.size) {
             this.questionFinished = true;
+            this.doneArray = [...QuestionsService.newF(this.questionRegistry)];
         }
     }
 }
