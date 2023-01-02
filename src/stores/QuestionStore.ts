@@ -21,7 +21,7 @@ class QuestionStore {
     @observable choices: string[] = [];
     @observable questionRegistry = new Map<string, Question>();
     @observable currentSelectedAnswer = '';
-    @observable questionFinished = false;
+    @observable questionsFinished = false;
     @observable doneArray: Question[] = [];
     @observable correctQuestions: Question[] = [];
     @observable questionCorrectCount = 0;
@@ -94,7 +94,7 @@ class QuestionStore {
         this.choices = [];
         this.currentQuestion = INIT_QUESTION;
         this.questionRegistry.clear();
-        this.questionFinished = false;
+        this.questionsFinished = false;
         this.correctQuestions = [];
         this.questionCorrectCount = 0;
     }
@@ -104,7 +104,7 @@ class QuestionStore {
         this.currentQuestion.userAnswer = answer;
         this.questionRegistry.set(this.currentQuestion.id, this.currentQuestion);
         if (this.questionsAmount === this.questionRegistry.size) {
-            this.questionFinished = true;
+            this.questionsFinished = true;
             this.doneArray = [...QuestionsService.newF(this.questionRegistry)];
             this.questionRegistry.clear();
             this.correctQuestions = QuestionsService.endResult(this.doneArray);

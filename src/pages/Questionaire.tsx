@@ -79,7 +79,7 @@ const Questionare = () => {
                 p: 2,
             }}
         >
-            {!questionStore.questionFinished ? (
+            {!questionStore.questionsFinished ? (
                 <>
                     <Box component='div'>
                         <Typography variant='subtitle1'>{`${questionStore.questionsIndex + 1} / ${
