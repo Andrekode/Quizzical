@@ -23,6 +23,8 @@ class QuestionStore {
     @observable currentSelectedAnswer = '';
     @observable questionFinished = false;
     @observable doneArray: Question[] = [];
+    @observable correctQuestions: Question[] = [];
+    @observable questionCorrectCount = 0;
 
     constructor() {
         makeAutoObservable(this);
@@ -102,6 +104,8 @@ class QuestionStore {
             this.questionFinished = true;
             this.doneArray = [...QuestionsService.newF(this.questionRegistry)];
             this.questionRegistry.clear();
+            this.correctQuestions = QuestionsService.endResult(this.doneArray);
+            this.questionCorrectCount = this.correctQuestions.length;
         }
     }
 }

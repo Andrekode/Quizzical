@@ -24,17 +24,14 @@ const card = (props: ComponentProps) => {
                     {id}
                 </Typography>
                 <Typography variant='h5' component='div'>
-                    {category}
+                    Category: {category}
                 </Typography>
                 <Typography sx={{ mb: 1.5 }} color='text.secondary'>
-                    {question}
+                    Question: {question}
                 </Typography>
-                <Typography variant='body2'>{correctAnswer}</Typography>
-                <Typography variant='body2'>{userAnswer}</Typography>
+                <Typography variant='body2'>Correct answer: {correctAnswer}</Typography>
+                <Typography variant='body2'>You answered: {userAnswer}</Typography>
             </CardContent>
-            <CardActions>
-                <Button size='small'>Learn More</Button>
-            </CardActions>
         </React.Fragment>
     );
 };

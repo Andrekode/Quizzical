@@ -32,6 +32,13 @@ class QuestionsService {
         }
         return arr;
     }
+
+    endResult(doneArray: Question[]) {
+        const result = doneArray.filter(
+            (question) => question.correct_answer === question.userAnswer,
+        );
+        return result;
+    }
 }
 
 export default new QuestionsService();
