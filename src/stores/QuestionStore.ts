@@ -31,7 +31,7 @@ class QuestionStore {
     }
 
     @action
-    async getQuestions() {
+    async getQuestions(): Promise<void> {
         if (this.questions.length > 1) return;
         this.questions = await QuestionsService.fetchQuestions(
             this.questionsAmount,
@@ -40,12 +40,12 @@ class QuestionStore {
     }
 
     @action
-    setDifficulty(difficulty: string) {
+    setDifficulty(difficulty: string): void {
         this.questionsDifficulty = difficulty;
     }
 
     @action
-    setQuestionsAmount(amount: number) {
+    setQuestionsAmount(amount: number): void {
         this.questionsAmount = amount;
     }
 

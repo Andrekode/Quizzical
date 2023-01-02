@@ -63,11 +63,7 @@ const Questionare = () => {
         const includesId =
             questionStore.correctQuestions.filter((question) => question.id === id).length > 0;
 
-        if (includesId) {
-            return true;
-        } else {
-            return false;
-        }
+        return includesId;
     };
 
     return (
@@ -133,7 +129,6 @@ const Questionare = () => {
                     </Stack>
                     <Stack direction='row' spacing={1}>
                         {questionStore.doneArray.map((question) => {
-                            checkForCorrectQuestions(question.id);
                             return (
                                 <OutlinedCard
                                     key={question.id}
