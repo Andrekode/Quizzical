@@ -37,6 +37,7 @@ class QuestionsService {
         const result = doneArray.filter(
             (question) => question.correct_answer === question.userAnswer,
         );
+
         return result;
     }
 }

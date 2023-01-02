@@ -8,7 +8,3 @@ export interface Question {
     incorrect_answers: string[];
     userAnswer?: string;
 }
-
-export interface UserAnswers extends Question {
-    userAnswer: string;
-}

@@ -7,6 +7,7 @@ interface ComponentProps {
     userAnswer?: string;
     correctAnswer: string;
     question: string;
+    correct: boolean;
 }
 
 const bull = (
@@ -37,8 +38,9 @@ const card = (props: ComponentProps) => {
 };
 
 export default function OutlinedCard(props: ComponentProps) {
+    const { id, correct } = props;
     return (
-        <Card key={props.id} variant='outlined'>
+        <Card key={id} variant='outlined' sx={{ backgroundColor: correct ? 'green' : 'red' }}>
             {card(props)}
         </Card>
     );

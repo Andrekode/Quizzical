@@ -9,12 +9,9 @@ const Home = () => {
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        questionStore.getQuestions();
-    }, []);
-
     const startQuiz = (): void => {
         navigate('/questions');
+        questionStore.getQuestions();
     };
 
     return (
@@ -44,14 +41,6 @@ const Home = () => {
                         onClick={startQuiz}
                     >
                         Start
-                    </Button>
-                    <Button
-                        variant='outlined'
-                        size='large'
-                        sx={{ mt: 4 }}
-                        onClick={() => questionStore.resetQuestions()}
-                    >
-                        restart
                     </Button>
                 </Box>
             </Box>

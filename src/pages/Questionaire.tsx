@@ -11,6 +11,7 @@ import type { Question } from '../types/question.type';
 const Questionare = () => {
     const navigate = useNavigate();
     const goBack = (): void => {
+        questionStore.resetQuestions();
         navigate('/');
     };
     useEffect(() => {
@@ -58,6 +59,17 @@ const Questionare = () => {
         </Button>
     ));
 
+    const checkForCorrectQuestions = (id: string) => {
+        const includesId =
+            questionStore.correctQuestions.filter((question) => question.id === id).length > 0;
+
+        if (includesId) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
     return (
         <Box
             component='div'
@@ -71,7 +83,7 @@ const Questionare = () => {
                 p: 2,
             }}
         >
-            {!questionStore.questionFinished && (
+            {!questionStore.questionFinished ? (
                 <>
                     <Box component='div'>
                         <Typography variant='subtitle1'>{`${questionStore.questionsIndex + 1} / ${
@@ -105,39 +117,38 @@ const Questionare = () => {
                     </Box>
                     <Box component='div' sx={{ display: 'flex', mt: 4, gap: 2 }}>
                         <Button variant='outlined' size='large' onClick={goBack}>
-                            Go back
-                        </Button>
-                        <Button
-                            variant='outlined'
-                            size='large'
-                            onClick={() => questionStore.previousQuestion()}
-                        >
-                            prev
-                        </Button>
-                        <Button
-                            variant='outlined'
-                            size='large'
-                            onClick={() => questionStore.nextQuestion()}
-                        >
-                            next
+                            Reset
                         </Button>
                     </Box>
                 </>
+            ) : (
+                <Box>
+                    <Stack alignItems='center' justifyContent='center' mb={2}>
+                        <Typography variant='h3' textAlign='center'>
+                            You had {questionStore.questionCorrectCount} questions correct!
+                        </Typography>
+                        <Button variant='outlined' size='large' onClick={goBack}>
+                            Reset
+                        </Button>
+                    </Stack>
+                    <Stack direction='row' spacing={1}>
+                        {questionStore.doneArray.map((question) => {
+                            checkForCorrectQuestions(question.id);
+                            return (
+                                <OutlinedCard
+                                    key={question.id}
+                                    id={question.id}
+                                    category={question.category}
+                                    question={question.question}
+                                    userAnswer={question.userAnswer}
+                                    correctAnswer={question.correct_answer}
+                                    correct={checkForCorrectQuestions(question.id)}
+                                />
+                            );
+                        })}
+                    </Stack>
+                </Box>
             )}
-            <Stack direction='row' spacing={1}>
-                {questionStore.doneArray.map((question) => {
-                    return (
-                        <OutlinedCard
-                            key={question.id}
-                            id={question.id}
-                            category={question.category}
-                            question={question.question}
-                            userAnswer={question.userAnswer}
-                            correctAnswer={question.correct_answer}
-                        />
-                    );
-                })}
-            </Stack>
         </Box>
     );
 };
