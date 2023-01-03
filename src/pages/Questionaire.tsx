@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import questionStore from '../stores/QuestionStore';
+import questionStore from '../stores/questions.store';
 import { useNavigate } from 'react-router-dom';
 import { Button, Box, Typography, Stack } from '@mui/material';
 import { observer } from 'mobx-react';
@@ -47,7 +47,7 @@ const Questionare = () => {
         }
     };
 
-    const choices = questionStore.choices.map((choice) => (
+    const choices = questionStore.choices.map((choice: string) => (
         <Button
             variant='outlined'
             size='small'
@@ -61,7 +61,8 @@ const Questionare = () => {
 
     const checkForCorrectQuestions = (id: string) => {
         const includesId =
-            questionStore.correctQuestions.filter((question) => question.id === id).length > 0;
+            questionStore.correctQuestions.filter((question: Question) => question.id === id)
+                .length > 0;
 
         return includesId;
     };
@@ -128,7 +129,7 @@ const Questionare = () => {
                         </Button>
                     </Stack>
                     <Stack direction='row' spacing={1}>
-                        {questionStore.doneArray.map((question) => {
+                        {questionStore.doneArray.map((question: Question) => {
                             return (
                                 <OutlinedCard
                                     key={question.id}

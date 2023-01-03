@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { observer } from 'mobx-react';
-import questionStore from '../stores/QuestionStore';
+import questionStore from '../stores/questions.store';
 import { Button, Box, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 

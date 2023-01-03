@@ -1,6 +1,6 @@
 import type { Question } from '../types/question.type';
 import { action, makeAutoObservable, observable } from 'mobx';
-import QuestionsService from '../services/QuestionsService';
+import QuestionsService from '../services/questions.service';
 
 const INIT_QUESTION: Question = {
     id: '',
